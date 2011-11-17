@@ -3,17 +3,19 @@
 
 namespace Acseo\Bundle\ExtraFormValidatorBundle\Validator;
 
+use Symfony\Component\Validator\Constraints;
 use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\Constraints\DateValidator;
+//use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
+
+use Symfony\Component\Validator\ConstraintValidator;
 
 /**
  * @api
  */
 class BirthDayValidator extends DateValidator
 {
-    const PATTERN = '/^(\d{4})-(\d{2})-(\d{2})$/';
-
     /**
      * Checks if the passed value is valid.
      *
@@ -24,13 +26,23 @@ class BirthDayValidator extends DateValidator
      *
      * @api
      */
+	const PATTERN_BIRTHDAY = '/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/';
+	
     public function isValid($value, Constraint $constraint)
     {
     	if (parent::isValid($value, $constraint))
     	{
-    		preg_match(static::PATTERN, $value, $matches);
-    		tm = mktime(0,0,0)
+    		//var_dump($value);
+    		if ($value instanceof \DateTime)
+    			$tm = $value->getTimestamp();
+        	else {
+        		preg_match(self::PATTERN_BIRTHDAY, string($value), $matches);
+    			$tm = mktime($matches[4],$matches[5],$matches[6], $matches[2], $matches[3], $matches[1]);
+        	}
+    		if(time() > $tm)
+    			return true;   		
+    		$this->setMessage($constraint->messageBirthday, array('{{ value }}' => $value));
     	}
-    	return true;
+    	return false;
     }
 }

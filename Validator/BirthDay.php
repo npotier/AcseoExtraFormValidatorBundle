@@ -2,13 +2,13 @@
 
 namespace Acseo\Bundle\ExtraFormValidatorBundle\Validator;
 use Symfony\Component\Validator\Constraint;
-
+use Symfony\Component\Validator\Constraints\Date;
 /**
  * @Annotation
  *
  * @api
  */
-class BirthDay extends Constraint
+class BirthDay extends Date
 {
-    public $message = 'This value is not a valid birthday';
+    public $messageBirthday = 'This value is not a valid birthday';
 }
