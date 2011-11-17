@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @author Nicolas Potier. nicolas.potier@acseo-conseil.fr
+ */
 namespace Acseo\Bundle\ExtraFormValidatorBundle\Validator;
 
 use Symfony\Component\Validator\Constraint;
@@ -24,18 +26,19 @@ class BirthDayValidator extends DateValidator
 	
     public function isValid($value, Constraint $constraint)
     {
-    	if (parent::isValid($value, $constraint))
-    	{
-   		if ($value instanceof \DateTime)
-    			$tm = $value->getTimestamp();
-        	else {
-        		preg_match(self::PATTERN_BIRTHDAY, string($value), $matches);
-    			$tm = mktime($matches[4],$matches[5],$matches[6], $matches[2], $matches[3], $matches[1]);
-        	}
-    		if(time() > $tm)
-    			return true;   		
+    	if (parent::isValid($value, $constraint)) {
+	   		if ($value instanceof \DateTime) {
+				$tm = $value->getTimestamp();
+	   		}else {
+	        	preg_match(self::PATTERN_BIRTHDAY, string($value), $matches);
+	    		$tm = mktime($matches[4],$matches[5],$matches[6], $matches[2], $matches[3], $matches[1]);
+	        }
+	    	if(time() > $tm) {
+	    		return true;
+	    	}   		
     		$this->setMessage($constraint->messageBirthday, array('{{ value }}' => $value));
     	}
+
     	return false;
     }
 }

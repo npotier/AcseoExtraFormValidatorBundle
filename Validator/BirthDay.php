@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @author Nicolas Potier. nicolas.potier@acseo-conseil.fr
+ */
 namespace Acseo\Bundle\ExtraFormValidatorBundle\Validator;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints\Date;
