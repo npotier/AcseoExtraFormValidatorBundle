@@ -1,15 +1,9 @@
 <?php
 
-
 namespace Acseo\Bundle\ExtraFormValidatorBundle\Validator;
 
-use Symfony\Component\Validator\Constraints;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints\DateValidator;
-//use Symfony\Component\Validator\ConstraintValidator;
-use Symfony\Component\Validator\Exception\UnexpectedTypeException;
-
-use Symfony\Component\Validator\ConstraintValidator;
 
 /**
  * @api
@@ -17,7 +11,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 class BirthDayValidator extends DateValidator
 {
     /**
-     * Checks if the passed value is valid.
+     * Checks if the passed value is a valid Birthday (i.e. in the past)
      *
      * @param mixed      $value      The value that should be validated
      * @param Constraint $constraint The constraint for the validation
@@ -32,8 +26,7 @@ class BirthDayValidator extends DateValidator
     {
     	if (parent::isValid($value, $constraint))
     	{
-    		//var_dump($value);
-    		if ($value instanceof \DateTime)
+   		if ($value instanceof \DateTime)
     			$tm = $value->getTimestamp();
         	else {
         		preg_match(self::PATTERN_BIRTHDAY, string($value), $matches);
